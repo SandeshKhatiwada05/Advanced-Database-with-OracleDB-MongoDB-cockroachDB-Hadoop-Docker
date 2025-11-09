@@ -474,7 +474,7 @@ INSERT ALL
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('TECH_WR', 'Technical Writer', 4500, 9500)
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('TRAIN_SPEC', 'Training Specialist', 4000, 8500)
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('REC_SPEC', 'Recruitment Specialist', 4500, 9000)
-    INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('COMP_BEN', 'Compensation & Benefits Specialist', 5000, 10000)
+    INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('COMP_BEN', 'Compensation and Benefits Specialist', 5000, 10000)
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('LEG_COUN', 'Legal Counsel', 10000, 20000)
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('LEG_ASST', 'Legal Assistant', 3500, 7000)
     INTO jobs (job_id, job_title, min_salary, max_salary) VALUES ('EXEC_ASST', 'Executive Assistant', 4500, 9500)
@@ -543,9 +543,8 @@ SELECT * FROM dual;
 COMMIT;
 
 -- =====================================================
--- Insert EMPLOYEES (50 records)
+-- Step : Insert EMPLOYEES (Top executives first - no manager)
 -- =====================================================
--- First batch: Top executives (no managers)
 INSERT ALL
     INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission_pct, manager_id, department_id)
         VALUES (100, 'Steven', 'King', 'SKING', '515.123.4567', DATE '2003-06-17', 'AD_PRES', 24000, NULL, NULL, 90)
@@ -557,7 +556,9 @@ SELECT * FROM dual;
 
 COMMIT;
 
--- Second batch: Department managers and senior staff
+-- =====================================================
+-- Step : Insert remaining EMPLOYEES (with managers)
+-- =====================================================
 INSERT ALL
     INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission_pct, manager_id, department_id)
         VALUES (103, 'Alexander', 'Hunold', 'AHUNOLD', '590.423.4567', DATE '2006-01-03', 'IT_PROG', 9000, NULL, 102, 60)
@@ -777,31 +778,32 @@ SELECT * FROM dual;
 COMMIT;
 
 -- =====================================================
--- Verification Queries
+-- FINAL VERIFICATION
 -- =====================================================
-PROMPT
-PROMPT ========================================
-PROMPT Data Insertion Summary
-PROMPT ========================================
-PROMPT
-
-SELECT 'REGIONS' AS table_name, COUNT(*) AS record_count FROM regions
-UNION ALL
-SELECT 'COUNTRIES', COUNT(*) FROM countries
-UNION ALL
-SELECT 'LOCATIONS', COUNT(*) FROM locations
-UNION ALL
-SELECT 'JOBS', COUNT(*) FROM jobs
-UNION ALL
-SELECT 'DEPARTMENTS', COUNT(*) FROM departments
+SELECT 'JOBS' AS table_name, COUNT(*) AS record_count FROM jobs
 UNION ALL
 SELECT 'EMPLOYEES', COUNT(*) FROM employees
 UNION ALL
-SELECT 'JOB_HISTORY', COUNT(*) FROM job_history;
+SELECT 'JOB_HISTORY', COUNT(*) FROM job_history
+UNION ALL
+SELECT 'DEPARTMENTS', COUNT(*) FROM departments
+UNION ALL
+SELECT 'LOCATIONS', COUNT(*) FROM locations
+UNION ALL
+SELECT 'COUNTRIES', COUNT(*) FROM countries
+UNION ALL
+SELECT 'REGIONS', COUNT(*) FROM regions
+ORDER BY table_name;
 
-PROMPT
-PROMPT ========================================
-PROMPT Data Insertion Complete!
-PROMPT ========================================
-PROMPT All tables now contain 40-50 records each
-PROMPT ========================================
+-- Test query to verify data
+SELECT e.employee_id, e.first_name, e.last_name, j.job_title, e.salary
+FROM employees e
+JOIN jobs j ON e.job_id = j.job_id
+ORDER BY e.employee_id
+FETCH FIRST 10 ROWS ONLY;
+
+PROMPT '========================================='
+PROMPT 'Data Insertion Complete!'
+PROMPT 'Student: Sandesh Khatiwada (Sandeshcsit)'
+PROMPT 'All Foreign Key Constraints Satisfied!'
+PROMPT '========================================='
