@@ -44,49 +44,9 @@ END;
 
 
 
--- 4. using HR
-
-select first_name, email, salary from employees where employee_id = 150;
-
-SET SERVEROUTPUT ON;
-
-DECLARE
-    v_sal EMPLOYEES.salary%TYPE;
-BEGIN
-    SELECT salary
-    INTO v_sal
-    FROM EMPLOYEES
-    WHERE employee_id = 150;
-
-    -- IF ELSE block
-    IF v_sal < 1000 THEN
-        UPDATE employees
-        SET commission_pct = 1.1 * commission_pct
-        WHERE employee_id = 150;
-
-    ELSIF v_sal >= 1000 AND v_sal < 5000 THEN
-        UPDATE employees
-        SET commission_pct = 1.2 * commission_pct
-        WHERE employee_id = 150;
-
-    ELSE
-        UPDATE employees
-        SET commission_pct = 1.3 * commission_pct
-        WHERE employee_id = 150;
-    END IF;
-
-    COMMIT;
-
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        DBMS_OUTPUT.PUT_LINE('No employee found with ID 150');
-END;
-/
-
-select first_name, email, salary from employees where employee_id = 150;
 
 
---wap to find even multiples of 5 less than 100
+--6. wap to find even multiples of 5 less than 100
 SET SERVEROUTPUT ON;
 
 DECLARE
