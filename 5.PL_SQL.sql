@@ -69,6 +69,32 @@ END;
 /
 
 
+--4 Function
+CREATE OR REPLACE FUNCTION get_total_employees_before_date
+(
+    p_hire_date IN DATE
+)
+RETURN NUMBER
+AS
+    v_total NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_total
+    FROM employees
+    WHERE hire_date < p_hire_date;
+
+    RETURN NVL(v_total, 0);
+END;
+/
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_total NUMBER;
+BEGIN
+    v_total := get_total_employees_before_date(TO_DATE('2021-01-01', 'YYYY-MM-DD'));
+    DBMS_OUTPUT.PUT_LINE('Total Employees hired before 2021-01-01: ' || v_total);
+END;
+/
 
 
 --6. wap to find even multiples of 5 less than 100
