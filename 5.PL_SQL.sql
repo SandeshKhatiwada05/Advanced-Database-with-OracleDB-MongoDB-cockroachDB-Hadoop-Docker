@@ -42,6 +42,31 @@ BEGIN
 END;
 /
 
+--3 Create a functino
+CREATE OR REPLACE FUNCTION get_total_salary_by_dept
+(
+    p_dept_id IN NUMBER
+)
+RETURN NUMBER
+AS
+    v_total_salary NUMBER;
+BEGIN
+    SELECT SUM(salary +  NVL(commission_pct,0)*salary)
+    --SELECT SUM(salary)
+    INTO v_total_salary
+    FROM employees
+    WHERE department_id = p_dept_id;
+    RETURN NVL(v_total_salary, 0);
+END;
+/
+SET SERVEROUTPUT ON;
+DECLARE
+    v_total NUMBER;
+BEGIN
+    v_total := get_total_salary_by_dept(80);
+    DBMS_OUTPUT.PUT_LINE('Total Salary for Dept 80: ' || v_total);
+END;
+/
 
 
 
