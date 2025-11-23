@@ -126,5 +126,30 @@ END;
 /
 
 
+--6 wap to find even multiples of 5 less than 100
+SET SERVEROUTPUT ON;
+
+DECLARE
+    i NUMBER := 1;
+    prod NUMBER;
+BEGIN
+    LOOP
+        prod := i * 5;
+
+        -- exit when product exceeds 100
+        EXIT WHEN prod >= 100;
+
+        -- print only even multiples
+        IF MOD(prod, 2) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(prod);
+        END IF;
+
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+
+
 
 
