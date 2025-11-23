@@ -97,29 +97,33 @@ END;
 /
 
 
---6. wap to find even multiples of 5 less than 100
+--5 STORED pROCEDURE
+CREATE OR REPLACE PROCEDURE get_max_salary(
+    v_max_salary OUT employees.salary%TYPE,
+    dept_id IN employees.department_id%TYPE)
+    AS
+BEGIN
+    
+    SELECT MAX(salary)
+    INTO v_max_salary
+    FROM employees
+    WHERE department_id=dept_id;
+    
+    
+    DBMS_OUTPUT.PUT_LINE('Maximum Salary: ' || v_max_salary);
+END get_max_salary ;
+/
+
 SET SERVEROUTPUT ON;
 
 DECLARE
-    i NUMBER := 1;
-    prod NUMBER;
+    v_max employees.salary%TYPE;  
 BEGIN
-    LOOP
-        prod := i * 5;
-
-        -- exit when product exceeds 100
-        EXIT WHEN prod >= 100;
-
-        -- print only even multiples
-        IF MOD(prod, 2) = 0 THEN
-            DBMS_OUTPUT.PUT_LINE(prod);
-        END IF;
-
-        i := i + 1;
-    END LOOP;
+    get_max_salary(v_max, 80);    
+    
+    DBMS_OUTPUT.PUT_LINE('Returned Max Salary: ' || v_max);
 END;
 /
-
 
 
 
