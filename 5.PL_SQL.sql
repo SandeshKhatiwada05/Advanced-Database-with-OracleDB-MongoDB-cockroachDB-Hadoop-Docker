@@ -13,7 +13,7 @@ END;
 /
 
 
---2. To calculate area of a circle
+--2.1 To calculate area of a circle
 SET SERVEROUTPUT ON;
 
 DECLARE
@@ -28,7 +28,7 @@ END;
 
 
 
--- 3. Use IF-ELSE to check admission eligibility based on age
+-- 2.2. Use IF-ELSE to check admission eligibility based on age
 SET SERVEROUTPUT ON;
 
 DECLARE
