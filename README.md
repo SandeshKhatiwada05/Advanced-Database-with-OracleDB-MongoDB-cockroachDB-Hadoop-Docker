@@ -2,18 +2,6 @@
 
 A comprehensive hands-on laboratory for advanced database concepts using Oracle Database, SQL Developer, and Docker containerization.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-  - [Manual Schema Setup](#manual-schema-setup)
-  - [Automated HR Schema Installation](#automated-hr-schema-installation)
-- [SQL Developer Configuration](#sql-developer-configuration)
-- [Database Schema](#database-schema)
-- [Usage Examples](#usage-examples)
-- [Troubleshooting](#troubleshooting)
-
 ---
 
 ## Overview
@@ -51,32 +39,6 @@ docker exec -it advanced_dbms bash
 sqlplus sys/oracle@XE as sysdba
 ```
 
-#### Step 3: Configure Pluggable Database
-
-```sql
-ALTER SESSION SET CONTAINER = XEPDB1;
-SHOW CON_NAME;
-SHOW PDBS;
-```
-
-#### Step 4: Create Lab User
-
-```sql
-CREATE USER sandesh_csit IDENTIFIED BY sandesh_csit ACCOUNT UNLOCK;
-GRANT CONNECT, RESOURCE, DBA TO sandesh_csit;
-```
-
-#### Step 5: Connect as Lab User
-
-```bash
-sqlplus sandesh_csit/sandesh_csit@XEPDB1
-```
-
-Verify your connection:
-
-```sql
-SHOW USER;
-```
 
 ---
 
@@ -118,16 +80,6 @@ Inside SQL*Plus, execute:
 docker exec -it advanced_dbms sqlplus hr/hr@XE
 ```
 
-Test the schema:
-
-```sql
-SELECT employee_id, first_name, last_name, job_id 
-FROM employees 
-WHERE ROWNUM <= 10;
-```
-
----
-
 ## SQL Developer Configuration
 
 Connect to your Oracle Database using SQL Developer with the following settings:
@@ -161,66 +113,6 @@ REGIONS
                       ├─ JOBS  │
                       └────────┘
                       └─ JOB_HISTORY
-```
-
-### Tables
-
-| Table | Description |
-|-------|-------------|
-| **REGIONS** | Geographic regions (e.g., Americas, Europe, Asia) |
-| **COUNTRIES** | Countries associated with regions |
-| **LOCATIONS** | Physical office locations |
-| **JOBS** | Job titles with salary ranges |
-| **DEPARTMENTS** | Organizational departments |
-| **EMPLOYEES** | Employee records with hierarchical relationships |
-| **JOB_HISTORY** | Historical job assignments and transfers |
-
-### Key Features
-
-- ✅ **Sequences** for auto-incrementing primary keys
-- ✅ **Foreign key constraints** for referential integrity
-- ✅ **Indexes** on frequently queried columns
-- ✅ **Check constraints** for data validation
-- ✅ **Self-referential relationships** (manager hierarchy)
-
----
-
-## Usage Examples
-
-### Query Employee Information
-
-```sql
--- Find employees in a specific department
-SELECT e.first_name, e.last_name, d.department_name, j.job_title
-FROM employees e
-JOIN departments d ON e.department_id = d.department_id
-JOIN jobs j ON e.job_id = j.job_id
-WHERE d.department_name = 'IT';
-```
-
-### Hierarchical Queries
-
-```sql
--- Display organizational hierarchy
-SELECT LEVEL, employee_id, first_name, last_name, manager_id
-FROM employees
-START WITH manager_id IS NULL
-CONNECT BY PRIOR employee_id = manager_id
-ORDER SIBLINGS BY last_name;
-```
-
-### Aggregate Analysis
-
-```sql
--- Average salary by department
-SELECT d.department_name, 
-       COUNT(e.employee_id) as employee_count,
-       ROUND(AVG(e.salary), 2) as avg_salary
-FROM departments d
-LEFT JOIN employees e ON d.department_id = e.department_id
-GROUP BY d.department_name
-ORDER BY avg_salary DESC;
-```
 
 ---
 
@@ -239,55 +131,40 @@ docker start advanced_dbms
 docker logs advanced_dbms
 ```
 
-### SQL*Plus Connection Errors
 
+---
+---
+
+# Advanced Database Management with MongoDB
+
+Minimal instructions to run MongoDB with Docker and connect from VS Code.
+
+Prerequisites
+- Docker installed
+- VS Code (optional) with the MongoDB extension
+
+Run MongoDB container
+1. Pull and run mongodb image
+<img width="799" height="801" alt="Screenshot 2025-11-26 185502" src="https://github.com/user-attachments/assets/d2d249e9-418a-4900-acec-5f29ea0e0a62" />
+
+
+Connect from VS Code
+1. Install the MongoDB extension.
+2. Add a new connection → "Connect with connection string".
+3. Use:
+```
+mongodb://localhost:27017
+```
+
+Notes
+- The official image contains the defaults needed for a local development instance.
+- Stop/remove container with:
 ```bash
-# Verify Oracle listener is running
-docker exec -it advanced_dbms lsnrctl status
-
-# Check database status
-docker exec -it advanced_dbms sqlplus / as sysdba
-SQL> SELECT status FROM v$instance;
+docker stop mongodb_sandesh && docker rm mongodb_sandesh
 ```
 
-### Permission Issues
 
-If you encounter permission errors:
 
-```sql
--- Grant additional privileges
-GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE TO <username>;
-```
 
----
 
-## Repository Structure
 
-```
-.
-├── HR Schema/
-│   └── human_resources/
-│       ├── hr_install.sql
-│       ├── hr_schema.sql
-│       ├── hr_data.sql
-│       └── hr_indexes.sql
-├── examples/
-│   ├── queries/
-│   └── exercises/
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues or pull requests.
-
-## License
-
-This project is intended for educational purposes.
-
----
-
-**Happy Learning! 🚀**
