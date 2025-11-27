@@ -23,3 +23,8 @@ db.lecturers.find({}, {name : true, _id : false}) //{select}, {projection}
 
 
 db.lecturers.find()
+
+
+
+//ps: {query} like where in sql
+//    {projection} is like select columns from in sql
