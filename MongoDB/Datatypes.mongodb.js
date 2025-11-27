@@ -22,6 +22,18 @@ db.lecturers.insertOne({
 })
 
 
+//different datatypes
+db.lecturers.insertOne({
+    name: "Mr SK", //string
+    age: 23, //int
+    gpa: 3.8, //double
+    fullTime: false, //boolean
+    register_date: new Date(), //current date
+    contract_completion_date: null, //null as a placeholder for future
+    courses: ["OOP", "Compiler", "Advanced Java"], //array
+    address: {street: "APF", city: "Kathmandu", zip: 44006} //nested document 
+})
+
 
 //few document
 db.lecturers.find()
