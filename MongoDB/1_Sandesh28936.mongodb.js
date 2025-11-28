@@ -34,6 +34,15 @@ db.lecturers.find({
 db.lecturers.find({name: "Sandesh"})
 
 
+//delete document
+db.lecturers.deleteOne({_id: ObjectId('6928210019dfb48285a20064')})
+
+
+// db.lecturers.insertMany([{name: "Pandit"}, {name: "Badri"}, {name: "Prasad"}])
+
+
+//delete many
+db.lecturers.deleteMany([{name: "Pandit"}, {name: "Badri"}, {name: "Prasad"}])
 
 
 
