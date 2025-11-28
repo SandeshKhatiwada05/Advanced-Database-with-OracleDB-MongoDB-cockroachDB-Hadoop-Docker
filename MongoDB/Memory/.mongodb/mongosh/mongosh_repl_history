@@ -1,0 +1,24 @@
+db.lecturers.find().pretty();
+db.lecturers.insertOne({id:100, name: "Sandesh Khatiwada", course : ["TOC", "DBMS"]}) ;
+show collections;
+db.createCollection("Student");
+show collections;
+use OIC;
+exit
+cls
+db.lecturers.insertOne({id:100, name: "Sandesh Khatiwada", course = ["TOC", "DBMS"]}) ;
+show collections;
+db.createCollection("Students");
+show collections;
+use OIC;
+exit
+cls
+use OIC;
+show collections;
+use oic;
+exit
+show collections;
+use OIC;
+USE OIC;
+USE OIC
+show collections
