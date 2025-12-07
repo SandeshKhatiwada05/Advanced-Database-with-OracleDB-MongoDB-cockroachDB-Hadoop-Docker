@@ -110,11 +110,46 @@ SELECT * FROM sales2 PARTITION (p1);
 
 
 
+-------------------------------------
+---3. Hash Partition
+-------------------------------------
+-- Create table with HASH partitioning 
+CREATE TABLE sales3
+(
+  customer_id  NUMBER,
+  sales_date   DATE,
+  order_amount NUMBER,
+  region       NVARCHAR2(10)
+)
+PARTITION BY HASH (customer_id)
+(
+  PARTITION p1,
+  PARTITION p2,
+  PARTITION p3,
+  PARTITION p4
+);
+
+--insert values for hash partitioning
+INSERT INTO sales3 (customer_id, sales_date, order_amount, region)
+VALUES (11, TO_DATE('01-FEB-2015','DD-MON-YYYY'), 1200, N'West');
+
+INSERT INTO sales3 (customer_id, sales_date, order_amount, region)
+VALUES (12, TO_DATE('10-FEB-2015','DD-MON-YYYY'),  450, N'East');
+
+INSERT INTO sales3 (customer_id, sales_date, order_amount, region)
+VALUES (13, TO_DATE('20-FEB-2015','DD-MON-YYYY'),  800, N'South');
+
+INSERT INTO sales3 (customer_id, sales_date, order_amount, region)
+VALUES (14, TO_DATE('28-FEB-2015','DD-MON-YYYY'),  300, N'North');
+
+COMMIT;
 
 
+-- Verify: view all rows
+SELECT * FROM sales3 ORDER BY customer_id;
 
-
-
+--view from partition
+SELECT * FROM sales3 PARTITION (p2) ORDER BY customer_id;
 
 
 
