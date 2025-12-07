@@ -155,6 +155,54 @@ SELECT * FROM sales3 PARTITION (p2) ORDER BY customer_id;
 
 
 
+-------------------------------------
+---4. Composite Partition
+-------------------------------------
+CREATE TABLE sales4
+(
+  customer_id  NUMBER,
+  sales_date   DATE,
+  order_amount NUMBER,
+  region       NVARCHAR2(10)
+)
+PARTITION BY RANGE (sales_date)
+SUBPARTITION BY HASH (customer_id) SUBPARTITIONS 4
+(
+  PARTITION p1 VALUES LESS THAN (TO_DATE('01-03-2015','DD-MM-YYYY')),
+  PARTITION p2 VALUES LESS THAN (TO_DATE('01-05-2015','DD-MM-YYYY')),
+  PARTITION p3 VALUES LESS THAN (TO_DATE('01-07-2015','DD-MM-YYYY')),
+  PARTITION p4 VALUES LESS THAN (MAXVALUE)
+);
+
+--insert for composite table
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (1, TO_DATE('15-01-2015','DD-MM-YYYY'),  500, N'East');
+
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (2, TO_DATE('20-03-2015','DD-MM-YYYY'), 1200, N'West');
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (3, TO_DATE('10-04-2015','DD-MM-YYYY'),  750, N'North');
+
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (4, TO_DATE('05-05-2015','DD-MM-YYYY'),  300, N'South');
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (5, TO_DATE('15-06-2015','DD-MM-YYYY'),  900, N'East');
+
+INSERT INTO sales4 (customer_id, sales_date, order_amount, region)
+VALUES (111, TO_DATE('02-07-2015','DD-MM-YYYY'), 2100, N'East');
+
+COMMIT;
+
+
+-- Verify: view all rows ordered by date
+SELECT * FROM sales4 ORDER BY sales_date;
+
+
+
+
+
+
+
 
 
 
