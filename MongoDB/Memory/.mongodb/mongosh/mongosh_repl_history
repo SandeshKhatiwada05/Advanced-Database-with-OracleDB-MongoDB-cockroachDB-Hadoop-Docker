@@ -1,3 +1,5 @@
+exit
+docker ps
 show collections
 db.createCollection("course")
 use university
