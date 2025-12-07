@@ -198,10 +198,16 @@ COMMIT;
 SELECT * FROM sales4 ORDER BY sales_date;
 
 
+-- 1) Show existing partitions 
+SELECT partition_name, high_value
+FROM user_tab_partitions
+WHERE table_name = 'SALES1'
+ORDER BY partition_position;
 
 
-
-
+-- delete partition
+ALTER TABLE sales1
+  DROP PARTITION p2;
 
 
 
