@@ -8,7 +8,7 @@ public class Driver {
 
     public static void main(String[] args) throws Exception {
 
-        String filePath = "D:/Github/1000Number.csv";
+        String filePath = "D:/Github/Advanced-Database-with-OracleDB-MongoDB-cockroachDB-Hadoop-Docker/MapReduce/1000Number.csv";
 
         Mapper mapper = new NumberMapper();
         Reducer reducer = new NumberReducer();
